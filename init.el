@@ -24,15 +24,17 @@
 ;;
 ;; myPackages contains a list of package names
 (defvar myPackages
-  '(better-defaults                 ;; Set up some better Emacs defaults
-    elpy                            ;; Emacs Lisp Python Environment
-    material-theme                  ;; material Theme
-    dracula-theme                   ;; dracula theme
-    openwith
+  '(better-defaults                 ; Set up some better Emacs defaults
+    elpy                            ; Emacs Lisp Python Environment
+    ;; material-theme                 ;; material Theme
+    dracula-theme                   ; dracula theme
+    ;; openwith
+    use-package                     ; use-package
+    org-roam
+    evil                            
     )
   )
 
-;; Scans the list in myPackages
 ;; If the package listed is not already installed, install it
 (mapc #'(lambda (package)
           (unless (package-installed-p package)
@@ -42,43 +44,64 @@
 ;; ===================================
 ;; Basic Customization
 ;; ===================================
-(setq inhibit-startup-message t)               ;; Hide the startup message
-;; (load-theme 'material t)                    ;; Load material theme
-(load-theme 'dracula t)                        ;; Load dracula theme
-(global-linum-mode t)                          ;; Enable line numbers globally
-(global-unset-key (kbd "C-z"))                 ;; Disable c-z
-(set-face-attribute 'default nil :height 180)  ;; font size
-(global-visual-line-mode 1)                    ;; visual line mode
-(delete-selection-mode 1)                      ;; delect mark selection
-(tool-bar-mode -1)                             ;; disable tool bar
-(menu-bar-mode -1)                             ;; disable the `menu bar`
-(openwith-mode 1)                              ;; openwith
-(global-auto-complete-mode t)                  ;; auto-complete-mode
+(setq inhibit-startup-message t)               ; Hide the startup message
+;; (load-theme 'material t)                    ; Load material theme
+(load-theme 'dracula t)                        ; Load dracula theme
+;; (global-linum-mode t)                          ; Enable line numbers globally
+(global-display-line-numbers-mode 1)           ; Enable line numbers globally  
+;; (global-unset-key (kbd "C-z"))                 ; Disable c-z
+(set-face-attribute 'default nil :height 120)  ; font size
+(global-visual-line-mode 1)                    ; visual line mode
+(delete-selection-mode 1)                      ; delect mark selection
+(tool-bar-mode -1)                             ; disable tool bar
+(menu-bar-mode -1)                             ; disable the `menu bar`
+(scroll-bar-mode -1)                           ; disable scroll bar
+;; (openwith-mode 1)                              ;; openwith
+;; (global-auto-complete-mode t)                  ;; auto-complete-mode
 
-(setq openwith-associations
-      (list
-       ;; (list (openwith-make-extension-regexp
-       ;;        '("mpg" "mpeg" "mp3" "mp4"
-       ;;          "avi" "wmv" "wav" "mov" "flv"
-       ;;          "ogm" "ogg" "mkv"))
-       ;;       "vlc"
-       ;;       '(file))
-       ;; (list (openwith-make-extension-regexp
-       ;;        '("xbm" "pbm" "pgm" "ppm" "pnm"
-       ;;          "png" "gif" "bmp" "tif" "jpeg" "jpg"))
-       ;;       "geeqie"
-       ;;       '(file))
-       ;; (list (openwith-make-extension-regexp
-       ;;        '("doc" "xls" "ppt" "odt" "ods" "odg" "odp"))
-       ;;       "libreoffice"
-       ;;       '(file))
-       ;; '("\\.lyx" "lyx" (file))
-       ;; '("\\.chm" "kchmviewer" (file))
-       (list (openwith-make-extension-regexp
-              '("pdf" "ps" "ps.gz" "dvi"))
-             "evince"
-             '(file))
-       ))
+(require 'use-package)
+(use-package org-roam
+  :ensure t
+  :init
+  (setq org-roam-v2-ack t)
+  :custom
+  (org-roam-directory "~/org-roam")
+  (org-roam-completion-everywhere t)
+  :bind (("C-c n l" . org-roam-buffer-toggle)
+	 ("C-c n f" . org-roam-node-find)
+	 ("C-c n i" . org-roam-node-insert)
+	 :map org-mode-map
+	 ("C-M-i"   . completion-at-point))
+  :config
+  (org-roam-setup))
+
+;; enable Evil
+(require 'evil)
+(evil-mode 1)
+;; (setq openwith-associations
+;;       (list
+;;        ;; (list (openwith-make-extension-regexp
+;;        ;;        '("mpg" "mpeg" "mp3" "mp4"
+;;        ;;          "avi" "wmv" "wav" "mov" "flv"
+;;        ;;          "ogm" "ogg" "mkv"))
+;;        ;;       "vlc"
+;;        ;;       '(file))
+;;        ;; (list (openwith-make-extension-regexp
+;;        ;;        '("xbm" "pbm" "pgm" "ppm" "pnm"
+;;        ;;          "png" "gif" "bmp" "tif" "jpeg" "jpg"))
+;;        ;;       "geeqie"
+;;        ;;       '(file))
+;;        ;; (list (openwith-make-extension-regexp
+;;        ;;        '("doc" "xls" "ppt" "odt" "ods" "odg" "odp"))
+;;        ;;       "libreoffice"
+;;        ;;       '(file))
+;;        ;; '("\\.lyx" "lyx" (file))
+;;        ;; '("\\.chm" "kchmviewer" (file))
+;;        (list (openwith-make-extension-regexp
+;;               '("pdf" "ps" "ps.gz" "dvi"))
+;;              "evince"
+;;              '(file))
+;;        ))
 
 ;; store all backup and autosave files in the tmp dir
 (setq backup-directory-alist
@@ -129,8 +152,10 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   '("1436985fac77baf06193993d88fa7d6b358ad7d600c1e52d12e64a2f07f07176" "78e6be576f4a526d212d5f9a8798e5706990216e9be10174e3f3b015b8662e27" "b1a691bb67bd8bd85b76998caf2386c9a7b2ac98a116534071364ed6489b695d" "b66970f42d765a40fdb2b6b86dd2ab6289bed518cf4d8973919e5f24f0ca537b" default))
  '(package-selected-packages
-   '(markdown-mode auto-complete typescript-mode tide magit openwith material-theme better-defaults)))
+   '(native-complete monokai-theme gruvbox-theme cyberpunk-theme markdown-mode auto-complete typescript-mode tide magit openwith material-theme better-defaults)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
