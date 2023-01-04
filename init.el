@@ -145,7 +145,7 @@
 
 ;; clipboard
 ;; (setq x-select-enable-clipboard t)
-
+(set-language-environment "UTF-8")
 ;; User-Defined init.el ends here
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
