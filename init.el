@@ -25,13 +25,13 @@
 ;; myPackages contains a list of package names
 (defvar myPackages
   '(better-defaults                 ; Set up some better Emacs defaults
-    elpy                            ; Emacs Lisp Python Environment
+    ;; elpy                            ; Emacs Lisp Python Environment
     ;; material-theme                 ;; material Theme
     dracula-theme                   ; dracula theme
     ;; openwith
-    use-package                     ; use-package
-    org-roam
-    evil                            
+    ;; use-package                     ; use-package
+    ;; org-roam
+    ;; evil                            
     )
   )
 
@@ -59,25 +59,25 @@
 ;; (openwith-mode 1)                              ;; openwith
 ;; (global-auto-complete-mode t)                  ;; auto-complete-mode
 
-(require 'use-package)
-(use-package org-roam
-  :ensure t
-  :init
-  (setq org-roam-v2-ack t)
-  :custom
-  (org-roam-directory "~/org-roam")
-  (org-roam-completion-everywhere t)
-  :bind (("C-c n l" . org-roam-buffer-toggle)
-	 ("C-c n f" . org-roam-node-find)
-	 ("C-c n i" . org-roam-node-insert)
-	 :map org-mode-map
-	 ("C-M-i"   . completion-at-point))
-  :config
-  (org-roam-setup))
+;; (require 'use-package)
+;; (use-package org-roam
+;;   :ensure t
+;;   :init
+;;   (setq org-roam-v2-ack t)
+;;   :custom
+;;   (org-roam-directory "~/org-roam")
+;;   (org-roam-completion-everywhere t)
+;;   :bind (("C-c n l" . org-roam-buffer-toggle)
+;; 	 ("C-c n f" . org-roam-node-find)
+;; 	 ("C-c n i" . org-roam-node-insert)
+;; 	 :map org-mode-map
+;; 	 ("C-M-i"   . completion-at-point))
+;;   :config
+;;   (org-roam-setup))
 
 ;; enable Evil
-(require 'evil)
-(evil-mode 1)
+;; (require 'evil)
+;; (evil-mode 1)
 ;; (setq openwith-associations
 ;;       (list
 ;;        ;; (list (openwith-make-extension-regexp
@@ -113,7 +113,7 @@
 ;; Development Setup
 ;; ====================================
 ;; Enable elpy
-(elpy-enable)
+;; (elpy-enable)
 ;; (setq elpy-rpc-virtualenv-path 'global)
 
 ;; My terminal stuff
